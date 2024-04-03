@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+     let root = ReactDOM.createRoot(document.getElementById("root"));
+    
+    function App() {
+            const [hobbies, setHobbies] = React.useState([""]); // State for hobbies
+
+            function handleInputChange(index, value) {
+                const newHobbies = [...hobbies];
+                newHobbies[index] = value;
+                setHobbies(newHobbies);
+            }
+
+            function addHobby() {
+                setHobbies([...hobbies, ""]);
+            }
+
+            function removeHobby(index) {
+                if (index === 0 || hobbies.length === 1) return; // Do not remove the first input field
+                const newHobbies = [...hobbies];
+                newHobbies.splice(index, 1);
+                setHobbies(newHobbies);
+            }
+
+            function handleSubmit(event) {
+                event.preventDefault();
+                console.log(hobbies);
+            }
+
+            return (
+                <form onSubmit={handleSubmit}>
+                    {hobbies.map((hobby, index) => (
+                        <div key={index}>
+                            <input
+                                type="text"
+                                value={hobby}
+                                onChange={(e) => handleInputChange(index, e.target.value)}
+                                placeholder="Enter hobby"
+                            />
+                            <button type="button" onClick={() => removeHobby(index)} disabled={index === 0}>Remove</button>
+                        </div>
+                    ))}
+                    <button type="button" onClick={addHobby}>Add Hobby</button>
+                    <button type="submit">Submit</button>
+                </form>
+            );
+        }
+
+    root.render(<App/>)
+  </script>
+</html>
